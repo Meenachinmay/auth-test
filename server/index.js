@@ -1,11 +1,10 @@
 const express = require ('express')
 const app = express()
 
-app.get('/', (req, res) => {
-    res.json({
-        data: "Hello world"
-    })
-})
+const authRouter = require('./routes/auth/index')
+
+//middleware
+app.use('/apiV1', authRouter)
 
 const port = process.env.port || 8000
 
