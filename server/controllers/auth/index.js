@@ -50,8 +50,8 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
     let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'chinmayanand896@gmail.com',
-            pass: 'Chinmay1234gmail'
+            user: process.env.GMAIL_ADDRESS,
+            pass: process.env.GMAIL_PASSWORD
         }
     })
 
