@@ -1,11 +1,12 @@
 import React from 'react'
-import Layout from './core/Layout'
 
 const App = () => {
   return (
-    <Layout>
-      <h1>Hello world</h1>
-    </Layout>
+    <div className="bg-blue-500">
+      <div className="flex items-center justify-between container mx-auto text-3xl text-gray-900">
+        <h1>Hello world</h1>
+      </div>
+    </div>
   )
 }
 export default App;
