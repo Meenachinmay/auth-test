@@ -46,9 +46,11 @@ userSchema.virtual('password')
 
  // methods
  userSchema.methods = {
+     // to authenticate the password for logging in
      authenticate: function (plaintext) {
          return this.encryptPassword(plaintext) === this.hashed_password
      },
+     // to encrypt the password
      encryptPassword: function(password) {
         if (!password) return ''
 
@@ -60,7 +62,7 @@ userSchema.virtual('password')
             return ''
         }
      },
-
+     // to generate salt
      makeSalt: function() {
          return Math.round(new Date().valueOf()  * Math.random()) + ''
      }
