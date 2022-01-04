@@ -2,6 +2,8 @@ const  User = require('../../models/user.model')
 const jwt = require ('jsonwebtoken')
 const sendgrid = require ('@sendgrid/mail')
 
+const nodemailer = require ('nodemailer')
+
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 
 exports.register = async (req, res) => {
@@ -14,7 +16,7 @@ exports.register = async (req, res) => {
         })
     }
     
-    let newUser = await new User({username, email, password})
+    let newUser = new User({username, email, password})
 
     if (newUser) {
         await newUser.save()
@@ -43,23 +45,32 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         })
     }
 
-    const token = jwt.sign({username, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '10m'})
+    const token = jwt.sign({username, email, password}, process.env.JWT_ACCOUNT_ACTIVATION, {expiresIn: '60m'})
+
+    let mailTransporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'chinmayanand896@gmail.com',
+            pass: 'Chinmay1234gmail'
+        }
+    })
 
     const emailData = {
         from: process.env.EMAIL_FROM,
         to: email,
         subject: `Account activation link`,
-        html: `
+        text: `
             <p>Use following link to activate your account!</p>
             <p> ${process.env.CLIENT_URL}/auth/activate${token}</p>
             <hr />
         `
     }
 
-    sendgrid.send(emailData)
-        .then(sent => {
+    mailTransporter.sendMail(emailData)
+        .then(data => {
             return res.json({
-                message: 'Activation link has been sent successfully!'
+                message: "Activation link sent successfully",
+                data: data
             })
         })
         .catch(err => {
@@ -67,4 +78,36 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
                 error: err
             })
         })
+}
+
+//activate the account
+exports.accountActivation = async (req, res) => {
+    const {token} = req.body
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, function(err, decoded){
+            if (err) {
+                return res.json({
+                    error: err
+                })
+            }
+        }) 
+
+        const newuser = jwt.decode(token)
+        const { username, email, password } = newuser;
+
+        const newlyCreated = new User ({username, email, password})
+
+        try {
+            await newlyCreated.save()
+            return res.status(200).json({
+                message: "Sign up done, sign in now"
+            })
+        } catch (error) {
+            return res.status(400).json({
+                error: error
+            })
+        }
+
+    }
 }
