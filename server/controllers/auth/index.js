@@ -111,3 +111,8 @@ exports.accountActivation = async (req, res) => {
 
     }
 }
+
+//login a user
+exports.loginUser = async () => {
+    
+}
