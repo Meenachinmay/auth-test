@@ -113,6 +113,34 @@ exports.accountActivation = async (req, res) => {
 }
 
 //login a user
-exports.loginUser = async () => {
-    
+exports.loginUser = async (req, res) => {
+    const { email, password } = req.body
+
+    const user = await User.findOne({email: email})
+
+    if (user) {
+        // authentciate the user
+        if (!user.authenticate(password)) {
+            return res.status(400).json({
+                error: 'Incorrect passoword, please try again'
+            })
+        } else {
+            // generate a token and send that to client
+            const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
+            
+            const { _id, username, email, role } = user
+
+            return res.status(200).json({
+                token,
+                user: {
+                    _id, username, email, role
+                }
+            })
+
+        }
+    } else {
+        return res.status(400).json({
+            error: 'User does not exist with this email, please regsiter first!!!'
+        })
+    }
 }
