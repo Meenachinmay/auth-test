@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { LockClosedIcon } from '@heroicons/react/solid'
 
+import cookie from 'js-cookie'
+
 const Login = () => {
 
     const [values, setValues] = useState({
@@ -25,7 +27,10 @@ const Login = () => {
             data: { email, password }
         })
         .then(response => {
-            console.log("login success", response.data)
+            localStorage.setItem('token', response.data.token)
+            cookie.set('user', response.data)
+            console.log(localStorage.getItem('token'))
+            console.log(cookie.get('user'))
         })
         .catch(error => {
             console.log(error.response.data)
