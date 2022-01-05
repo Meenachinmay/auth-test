@@ -61,7 +61,7 @@ exports.regsiterUsingEmailActivation = async (req, res) => {
         subject: `Account activation link`,
         text: `
             <p>Use following link to activate your account!</p>
-            <p> ${process.env.CLIENT_URL}/auth/activate${token}</p>
+            <p> ${process.env.CLIENT_URL}/auth/activate/${token}</p>
             <hr />
         `
     }
