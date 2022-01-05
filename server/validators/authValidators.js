@@ -10,6 +10,8 @@ const registerValidation = (data) => {
             .email()
             .required(),
         password: Joi.string()
+            .min(6)
+            .max(32)
             .required()
             .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
     })

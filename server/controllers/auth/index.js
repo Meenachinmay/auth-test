@@ -35,7 +35,7 @@ exports.register = async (req, res) => {
 }
 
 // send email to user to activate then save the data to the database
-exports. regsiterUsingEmailActivation = async (req, res) => {
+exports.regsiterUsingEmailActivation = async (req, res) => {
     const { username, email, password } = req.body
 
     const user = await User.findOne({email: email});
@@ -61,7 +61,7 @@ exports. regsiterUsingEmailActivation = async (req, res) => {
         subject: `Account activation link`,
         text: `
             <p>Use following link to activate your account!</p>
-            <p> ${process.env.CLIENT_URL}/auth/activate${token}</p>
+            <p> ${process.env.CLIENT_URL}/auth/activate/${token}</p>
             <hr />
         `
     }

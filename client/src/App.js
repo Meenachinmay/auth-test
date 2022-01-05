@@ -7,6 +7,8 @@ import Profile from './core/Profile';
 import Login from './core/Login';
 import Register from './core/Register';
 import Home from './core/Home'
+import Activation from './core/Activation';
+
 const App = () => {
   return (
     <div className="">
@@ -18,6 +20,7 @@ const App = () => {
         <Route path="/profile" element={ <Profile /> } />
         <Route path="/register" element={ <Register /> } />
         <Route path="/login" element={ <Login /> } />
+        <Route path="/auth/activate/:token" element={<Activation />}/>
       </Routes>
     </div>
   )

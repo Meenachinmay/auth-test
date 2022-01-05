@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
 
     return (
-    <div className="bg-blue-500 flex items-center justify-between p-7 text-white">
-        <Link to="/">Real connect</Link>
+    <div className="flex items-center justify-between p-7 text-white"　style={{background: '#4f46e5'}}>
+        <Link to="/">リアルコネクト</Link>
         <div className="flex items-center">
-            <Link to='/register' className="mx-2 cursor-pointer">Register</Link>
-            <Link to='/login' className="mx-2 cursor-pointer">Login</Link>
+            <Link to='/register' className="mx-2 cursor-pointer">サインアップ</Link>
+            <Link to='/login' className="mx-2 cursor-pointer">サインイン</Link>
+            <Link to='/auth/activate' className="mx-2 cursor-pointer"> Activation</Link>
         </div>
     </div>
     )
